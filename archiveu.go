@@ -21,6 +21,8 @@ type Archive interface {
 
 type WriteFunc func(info os.FileInfo, file io.Reader, entryName string) (err error)
 
+// Create Archiver by archiveType.
+// Supported archiveTypes: "zip"
 func CreateArchive(archiveType string, w io.Writer) Archive {
 	switch archiveType {
 	case ZIP:

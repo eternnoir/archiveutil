@@ -12,11 +12,14 @@ type Zip struct {
 	Writer *zip.Writer
 }
 
+// Create Zip Archiver.
 func CreateZipArchive(w io.Writer) *Zip {
 	z := new(Zip)
 	z.Writer = zip.NewWriter(w)
 	return z
 }
+
+// Add file to zip.
 func (zipp *Zip) AddFile(filePath string) error {
 	bytearq, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -33,6 +36,7 @@ func (zipp *Zip) AddFile(filePath string) error {
 	return nil
 }
 
+// Add hole folder to zip file.
 func (zipp *Zip) AddFolder(folderPath string) error {
 	folderPath = path.Clean(folderPath)
 	return addAllEntry(folderPath, folderPath, func(info os.FileInfo, file io.Reader, entryName string) (err error) {
@@ -61,6 +65,7 @@ func (zipp *Zip) AddFolder(folderPath string) error {
 	})
 }
 
+// Close writer.
 func (zipp *Zip) Close() error {
 	return zipp.Writer.Close()
 }
